@@ -1,0 +1,176 @@
+import os
+import shutil
+import zipfile
+
+# Define base directory for the starter project
+base_dir = '/mnt/data/desain_cilik_starter'
+os.makedirs(os.path.join(base_dir, 'assets', 'css'), exist_ok=True)
+os.makedirs(os.path.join(base_dir, 'assets', 'images'), exist_ok=True)
+
+# File contents
+index_html = """<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Desain Cilik</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <header class="bg-white shadow p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Desain Cilik</h1>
+      <nav>
+        <a href="index.html" class="mr-4">Beranda</a>
+        <a href="templates.html">Daftar Template</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container mx-auto py-10">
+    <h2 class="text-xl mb-6">Template Unggulan</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-white rounded-2xl shadow p-4">
+        <img src="assets/images/midnight-wolf-hoodie.png" alt="Midnight Wolf Hoodie" class="rounded">
+        <h3 class="mt-4 font-semibold">Midnight Wolf Hoodie</h3>
+        <p class="text-sm text-gray-600">Hoodie digital mockup ‘Midnight Wolf Pack’ dengan desain keren untuk brand pilihan.</p>
+        <a href="detail.html" class="mt-2 inline-block text-blue-600">Lihat Detail →</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-white shadow p-4 text-center">
+    © 2025 Desain Cilik
+  </footer>
+</body>
+</html>
+"""
+
+templates_html = """<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daftar Template - Desain Cilik</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <header class="bg-white shadow p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Desain Cilik</h1>
+      <nav>
+        <a href="index.html" class="mr-4">Beranda</a>
+        <a href="templates.html">Daftar Template</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container mx-auto py-10">
+    <h2 class="text-xl mb-6">Semua Template</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div class="bg-white rounded-2xl shadow p-4">
+        <img src="assets/images/midnight-wolf-hoodie.png" alt="Midnight Wolf Hoodie" class="rounded">
+        <h3 class="mt-4 font-semibold">Midnight Wolf Hoodie</h3>
+        <p class="text-sm text-gray-600">Hoodie digital mockup ‘Midnight Wolf Pack’ untuk brand kamu.</p>
+        <a href="detail.html" class="mt-2 inline-block text-blue-600">Lihat Detail →</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-white shadow p-4 text-center">
+    © 2025 Desain Cilik
+  </footer>
+</body>
+</html>
+"""
+
+detail_html = """<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detail Produk - Desain Cilik</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <header class="bg-white shadow p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Desain Cilik</h1>
+      <nav>
+        <a href="index.html" class="mr-4">Beranda</a>
+        <a href="templates.html">Daftar Template</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container mx-auto py-10">
+    <div class="bg-white p-6 rounded-2xl shadow">
+      <h2 class="text-2xl font-bold mb-4">Midnight Wolf Hoodie</h2>
+      <img src="assets/images/midnight-wolf-hoodie.png" alt="Midnight Wolf Hoodie Preview" class="rounded mb-4">
+      <p class="mb-4">Mockup digital Hoodie ‘Midnight Wolf Pack’, cocok untuk merchandise dan promosi brand. Format: PSD & PNG high-res.</p>
+      <p class="text-xl font-semibold mb-4">Rp150.000</p>
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+        <input type="hidden" name="cmd" value="_xclick">
+        <input type="hidden" name="business" value="YOUR_PAYPAL_EMAIL">
+        <input type="hidden" name="item_name" value="Midnight Wolf Hoodie">
+        <input type="hidden" name="amount" value="150.00">
+        <input type="hidden" name="currency_code" value="USD">
+        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-2xl">Beli Sekarang</button>
+      </form>
+    </div>
+  </main>
+
+  <footer class="bg-white shadow p-4 text-center">
+    © 2025 Desain Cilik
+  </footer>
+</body>
+</html>
+"""
+
+styles_css = """/* Tambahan kustom di atas Tailwind */
+body { /* contoh override */ }
+.rounded-2xl { border-radius: 1rem; }
+"""
+
+readme_md = """# Desain Cilik
+
+Starter template untuk website jualan template digital.
+
+## Cara Deploy ke GitHub Pages
+
+1. Buat repository `username.github.io`.
+2. Push seluruh folder `desain_cilik_starter` ke branch `main`.
+3. GitHub Pages otomatis live di `https://username.github.io`.
+
+Enjoy! 🎉
+"""
+
+# Write files
+files_to_write = {
+    'index.html': index_html,
+    'templates.html': templates_html,
+    'detail.html': detail_html,
+    'assets/css/styles.css': styles_css,
+    'README.md': readme_md
+}
+
+for relative_path, content in files_to_write.items():
+    full_path = os.path.join(base_dir, relative_path)
+    with open(full_path, 'w') as f:
+        f.write(content)
+
+# Copy the user-uploaded image
+shutil.copy('/mnt/data/file-Fyh4MwguYxw6dtV1cYBSUW', os.path.join(base_dir, 'assets', 'images', 'midnight-wolf-hoodie.png'))
+
+# Create a zip archive
+zip_path = '/mnt/data/desain_cilik_starter.zip'
+with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+    for root, _, files in os.walk(base_dir):
+        for file in files:
+            file_path = os.path.join(root, file)
+            zipf.write(file_path, arcname=os.path.relpath(file_path, base_dir))
+
+zip_path
